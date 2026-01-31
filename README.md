@@ -12,7 +12,7 @@ Dotfiles for macOS: Zsh, Cursor, iTerm2, and development tools. All files live i
 ## Quick start (fresh machine)
 ```bash
 # clone
-git clone <your-repo-url> ~/dotfiles
+git clone https://github.com/enochakinbode/dotfiles.git
 cd ~/dotfiles
 
 # run bootstrap (installs packages, oh-my-zsh, symlinks files, sets up Cursor)
@@ -46,11 +46,6 @@ Before committing changes, extract the latest app configurations from your syste
 This script copies configurations from:
 - **Cursor**: Settings, keybindings, profiles (with RTF-to-JSON conversion), and extensions list (including extensions from all profiles)
 - **iTerm2**: Preferences, dynamic profiles, and color presets
-
-The extraction script:
-- Converts RTF-format JSON files to plain text (macOS sometimes saves JSON as RTF)
-- Extracts extension IDs from profile-specific `extensions.json` files and includes them in the main `extensions.txt`
-- Excludes `workspaceStorage` and `globalStorage` directories (machine-specific state)
 
 When you run `./bootstrap.sh`, it will:
 - Copy all configuration files to their proper locations
