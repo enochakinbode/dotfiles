@@ -8,7 +8,6 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Extract flags
 EXTRACT_ALL=false
-EXTRACT_ITERM=false
 EXTRACT_CURSOR=false
 
 parse_args() {
@@ -16,10 +15,6 @@ parse_args() {
     case "$1" in
       --all)
         EXTRACT_ALL=true
-        shift
-        ;;
-      --iterm)
-        EXTRACT_ITERM=true
         shift
         ;;
       --cursor)
@@ -35,39 +30,7 @@ parse_args() {
 
   # If --all is set, enable all extractions
   if [[ "$EXTRACT_ALL" == "true" ]]; then
-    EXTRACT_ITERM=true
     EXTRACT_CURSOR=true
-    EXTRACT_VSCODE=true
-  fi
-}
-
-extract_iterm_config() {
-  log "Extracting iTerm2 configuration..."
-  
-  local iterm_prefs="$HOME/Library/Preferences/com.googlecode.iterm2.plist"
-  local iterm_support="$HOME/Library/Application Support/iTerm2"
-  local target_dir="$DOTFILES_DIR/iterm2"
-  
-  mkdir -p "$target_dir"
-  
-  # Copy preferences plist
-  if [[ -f "$iterm_prefs" ]]; then
-    cp "$iterm_prefs" "$target_dir/com.googlecode.iterm2.plist"
-    log "Copied iTerm2 preferences"
-  else
-    warn "iTerm2 preferences not found at $iterm_prefs"
-  fi
-  
-  # Copy dynamic profiles if they exist
-  if [[ -d "$iterm_support/DynamicProfiles" ]]; then
-    cp -r "$iterm_support/DynamicProfiles" "$target_dir/" 2>/dev/null || warn "Failed to copy DynamicProfiles"
-    log "Copied iTerm2 DynamicProfiles"
-  fi
-  
-  # Copy color presets if they exist
-  if [[ -d "$iterm_support/ColorPresets" ]]; then
-    cp -r "$iterm_support/ColorPresets" "$target_dir/" 2>/dev/null || warn "Failed to copy ColorPresets"
-    log "Copied iTerm2 ColorPresets"
   fi
 }
 
@@ -213,18 +176,14 @@ extract_cursor_config() {
 }
 
 extract_configs() {
-  if [[ "$EXTRACT_ITERM" == "true" ]]; then
-    extract_iterm_config
-  fi
-  
   if [[ "$EXTRACT_CURSOR" == "true" ]]; then
     extract_cursor_config
   fi
   
-  if [[ "$EXTRACT_ALL" == "true" || "$EXTRACT_ITERM" == "true" || "$EXTRACT_CURSOR" == "true" ]]; then
+  if [[ "$EXTRACT_ALL" == "true" || "$EXTRACT_CURSOR" == "true" ]]; then
     log "Configuration extraction complete!"
   else
-    warn "No extraction flags provided. Use --all, --iterm, or --cursor"
+    warn "No extraction flags provided. Use --all or --cursor"
     exit 1
   fi
 }

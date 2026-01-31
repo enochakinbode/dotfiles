@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AICompletions</key>
+	<string>false</string>
+	<key>AllowPaste</key>
+	<string>false</string>
+	<key>BrowserBundleID</key>
+	<string>""</string>
+	<key>EnableAI</key>
+	<string>false</string>
+	<key>EnableSecureKeyboardEntryAutomatically</key>
+	<string>true</string>
+	<key>RequireAuthenticationToOpenPasswordManager</key>
+	<string>true</string>
+</dict>
+</plist>

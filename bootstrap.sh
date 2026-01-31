@@ -140,8 +140,6 @@ link_all() {
     ".zshrc:.zshrc"
     ".zshenv:.zshenv"
     ".gitconfig:.gitconfig"
-    ".config/uv:.config/uv"
-    ".local/bin/env:.local/bin/env"
   )
 
   for entry in "${mappings[@]}"; do

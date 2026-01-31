@@ -4,3 +4,11 @@
 # Workspace storage (machine-specific, regenerated automatically)
 cursor/workspaceStorage/
 vscode/workspaceStorage/
+
+# iTerm2 cache/state files (not needed for restoration)
+iterm2/app-support/*.sqlite*
+iterm2/app-support/*.sqlite-shm
+iterm2/app-support/*.sqlite-wal
+iterm2/app-support/*-lock
+iterm2/app-support/SavedState/
+iterm2/app-support/browserdb**
