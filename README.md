@@ -68,5 +68,4 @@ When you run `./bootstrap.sh`, it will:
 - Cursor configuration is only set up if the application is detected as installed.
 - iTerm2 preferences are stored in `iterm2/` directory but must be manually imported:
   - Open iTerm2 → Preferences → General → Settings → Load preferences from a custom folder or URL
-  - Point to `~/dotfiles/iterm2/com.googlecode.iterm2.plist` or copy the files manually
-- The post-install notes mention `skhd` and `yabai` services, but these are not installed by the bootstrap script (install manually if needed).
+  - Point to `~/.dotfiles/iterm2` folder or copy the files manually
