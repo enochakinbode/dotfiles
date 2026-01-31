@@ -1,0 +1,15 @@
+{
+    "python.useEnvironmentsExtension": true,
+    "workbench.editor.enablePreview": false,
+    "editor.rulers": [],
+    "workbench.activityBar.orientation": "vertical",
+    "explorer.confirmDelete": false,
+    "editor.formatOnSave": true,
+    "editor.fontSize": 14,
+    "explorer.confirmDragAndDrop": false,
+    "python.defaultInterpreterPath": "/opt/homebrew/bin/python3",
+    "workbench.settings.applyToAllProfiles": [],
+    "window.zoomLevel": 0.5,
+    "update.enableWindowsBackgroundUpdates": false,
+    "update.mode": "none"
+}

@@ -1,0 +1,12 @@
+anysphere.cursorpyright
+anysphere.remote-ssh
+dart-code.dart-code
+dart-code.flutter
+llvm-vs-code-extensions.vscode-clangd
+ms-python.black-formatter
+ms-python.debugpy
+ms-python.pylint
+ms-python.python
+ms-python.vscode-python-envs
+nomicfoundation.hardhat-solidity
+tintinweb.vscode-vyper

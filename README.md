@@ -1,46 +1,62 @@
-# gakonst / dotfiles
+# enochakinbode / dotfiles
 
-Dotfiles for macOS: tmux, Neovim, Zsh, Yabai/SKHD, Alacritty, and a few helpers. All files live in this repo and get symlinked into `$HOME` by the bootstrap script.
+Dotfiles for macOS: Zsh, Cursor, iTerm2, and development tools. All files live in this repo and get symlinked into `$HOME` by the bootstrap script.
 
 ## What's inside
-- **Shell:** `.zshrc`, `.zshenv`, `.zprofile`, `fzf-zsh-history-config.zsh`, PATH helpers in `.local/bin/env*`, oh-my-zsh with modern CLI aliases, fzf/zoxide setup, tmux auto-attach. `ZSH_CUSTOM` points to `.config/zsh-custom` where `zsh-autosuggestions` is vendored.
-- **Neovim:** Lua config (`.config/nvim/init.lua`) with lazy.nvim, gruvbox, LSP (rust/ts/python/lua), nvim-cmp, Treesitter, Conform format-on-save, Trouble, lualine, NvimTree. Lockfile included.
-- **Tmux:** `.tmux.conf` with backtick prefix, vim-style splits/movement, catppuccin-ish status, mouse, Alt+number window jumps.
-- **Window mgmt:** `.yabairc` (BSP layout, gaps, rules) and `.skhdrc` (bindings for focus/move/resize, spaces, displays).
-- **Terminal:** `.config/alacritty` (includes `alacritty-theme` submodule) with `alacritty.toml` importing solarized_light.
-- **GitHub CLI:** `.config/gh/config.yml` and `hosts.yml` (no tokens).
-- **Python toolchain:** `.config/uv/*` receipt and version pin.
-- **SoundCloud dl:** `.config/scdl/scdl.cfg` and `.config/scdl2/scdl.cfg` (contains public client_id; review before pushing).
-- **Zed:** `.config/zed/settings.json` (vim mode, fonts, theme prefs).
-- **Vim (legacy):** `.vimrc` with vim-plug, gruvbox/solarized, airline, NERDTree, fzf, vim-tmux-navigator, commentary.
-- **Misc:** `.gitconfig`, fish snippet `.config/fish/conf.d/uv.env.fish` to share PATH helper.
+- **Shell:** `.zshrc`, `.zshenv` with oh-my-zsh, nvm setup, and custom PATH configurations
+- **Git:** `.gitconfig` with user configuration
+- **Python toolchain:** `.config/uv/*` configuration
+- **Cursor IDE:** Settings, keybindings, profiles, and extensions configuration
+- **iTerm2:** Terminal preferences, dynamic profiles, and color presets
 
 ## Quick start (fresh machine)
 ```bash
 # clone
-git clone https://github.com/gakonst/dotfiles.git ~/dotfiles
+git clone <your-repo-url> ~/dotfiles
 cd ~/dotfiles
 
-# run bootstrap (installs packages, oh-my-zsh, clones alacritty theme, symlinks files)
+# run bootstrap (installs packages, oh-my-zsh, symlinks files, sets up Cursor)
 ./bootstrap.sh
 ```
 
 Afterwards:
 - Restart terminal or `exec zsh` to load the new shell config.
-- Start services (macOS): `brew services start skhd && brew services start yabai`.
-- Yabai needs SIP disabled + scripting addition (follow yabai README); run `sudo yabai --load-sa` after each macOS update.
+- Cursor and iTerm2 configurations will be automatically set up if the applications are installed.
 
-### Flags
+### Environment Variables
 - Set `SKIP_BREW=1` to skip Homebrew installs (handy when re-linking on an existing machine).
-- Set `SKIP_OMZ=1` to skip oh-my-zsh install (if you manage it yourself).
-- Set `SKIP_FZF=1` to skip fzf keybinding install.
 
 ### Submodules
 - `.oh-my-zsh` (ohmyzsh)
-- `.config/alacritty/themes` (alacritty-theme)
 - `.config/zsh-custom/plugins/zsh-autosuggestions` (zsh-users)
+
+## Syncing App Configurations
+
+Before committing changes, extract the latest app configurations from your system:
+
+```bash
+# Extract all app configurations (Cursor, iTerm2)
+./extract.sh --all
+
+# Or extract specific apps
+./extract.sh --cursor
+./extract.sh --iterm
+```
+
+This script copies configurations from:
+- **Cursor**: Settings, keybindings, profiles (with RTF-to-JSON conversion), and extensions list (including extensions from all profiles)
+- **iTerm2**: Preferences, dynamic profiles, and color presets
+
+The extraction script:
+- Converts RTF-format JSON files to plain text (macOS sometimes saves JSON as RTF)
+- Extracts extension IDs from profile-specific `extensions.json` files and includes them in the main `extensions.txt`
+- Excludes `workspaceStorage` and `globalStorage` directories (machine-specific state)
+
+When you run `./bootstrap.sh`, it will:
+- Copy all configuration files to their proper locations
+- Install all extensions from `extensions.txt` and from all profile `extensions.json` files
 
 ## Notes
 - The bootstrap script backs up any existing files it replaces into `~/.dotfiles_backup_<timestamp>`.
 - It is macOS-focused (Homebrew). On Linux it will still symlink files but skip package installs.
-- Local plugin path for Neovim `~/vibe-producing/vim-strudel` is expected to exist if you want the Strudel integration.
+- Cursor and iTerm2 configurations are only set up if the applications are detected as installed.

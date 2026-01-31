@@ -7,8 +7,6 @@ warn() { printf "[dotfiles][warn] %s\n" "$*" >&2; }
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_DIR="$HOME/.dotfiles_backup_$(date +%Y%m%d%H%M%S)"
 SKIP_BREW="${SKIP_BREW:-${DOTFILES_SKIP_BREW:-}}"
-SKIP_OMZ="${SKIP_OMZ:-${DOTFILES_SKIP_OMZ:-}}"
-SKIP_FZF="${SKIP_FZF:-${DOTFILES_SKIP_FZF:-}}"
 
 init_submodules() {
   if [[ -d "$DOTFILES_DIR/.git" ]]; then
@@ -42,10 +40,6 @@ backup_and_link() {
 }
 
 ensure_homebrew() {
-  if [[ -n "$SKIP_BREW" ]]; then
-    warn "Homebrew install skipped (SKIP_BREW set)"
-    return
-  fi
   if [[ "$(uname)" != "Darwin" ]]; then
     warn "Homebrew install skipped (non-macOS)"
     return
@@ -58,32 +52,13 @@ ensure_homebrew() {
 }
 
 install_brew_packages() {
-  if [[ -n "$SKIP_BREW" ]]; then
-    warn "brew package install skipped (SKIP_BREW set)"
-    return
-  fi
   [[ "$(uname)" == "Darwin" ]] || return
   local pkgs=(
-    tmux
-    neovim
     git
-    fzf
-    fd
-    ripgrep
-    eza
-    bat
-    zoxide
-    dust
-    duf
-    procs
-    bottom
-    doggo
-    gping
-    delta
-    sd
-    tldr
-    jq
-    unzip
+    yarn
+    pipx
+    nvm
+    cmake
     python
   )
   log "Installing Homebrew packages..."
@@ -96,30 +71,25 @@ install_brew_packages() {
     fi
   done
 
-  # Extras that need taps
-  if ! brew list --formula uv >/dev/null 2>&1; then
-    brew tap astral-sh/uv >/dev/null 2>&1 || true
-    brew install uv >/dev/null 2>&1 || warn "uv install failed"
-  fi
-
-  brew tap koekeishiya/formulae >/dev/null 2>&1 || true
-  for pkg in yabai skhd; do
-    if ! brew list --formula "$pkg" >/dev/null 2>&1; then
-      brew install "$pkg" >/dev/null 2>&1 || warn "Failed to install $pkg (needs SIP tweaks)"
-    fi
-  done
-
   # Bun (optional)
   if ! command -v bun >/dev/null 2>&1; then
     curl -fsSL https://bun.sh/install | bash >/dev/null 2>&1 || warn "bun install failed"
   fi
 }
 
-install_oh_my_zsh() {
-  if [[ -n "$SKIP_OMZ" ]]; then
-    warn "oh-my-zsh install skipped (SKIP_OMZ set)"
+ensure_pipx_uv() {
+  if ! command -v pipx >/dev/null 2>&1; then
+    warn "pipx not found, skipping uv installation"
     return
   fi
+
+  if ! command -v uv >/dev/null 2>&1; then
+    log "Installing uv via pipx..."
+    pipx install uv >/dev/null 2>&1 || warn "Failed to install uv via pipx"
+  fi
+}
+
+install_oh_my_zsh() {
   local bundled="$DOTFILES_DIR/.oh-my-zsh"
   if [[ -d "$bundled" ]]; then
     backup_and_link ".oh-my-zsh" ".oh-my-zsh"
@@ -134,44 +104,44 @@ install_oh_my_zsh() {
     warn "oh-my-zsh install failed"
 }
 
-install_fzf_bindings() {
-  if [[ -n "$SKIP_FZF" ]]; then
-    warn "fzf bindings install skipped (SKIP_FZF set)"
+backup_and_copy() {
+  local src="$1"
+  local dst="$2"
+
+  if [[ ! -e "$src" ]]; then
+    warn "Source missing: $src"
     return
   fi
-  if [[ "$(uname)" != "Darwin" ]]; then return; fi
-  if command -v fzf >/dev/null 2>&1; then
-    local prefix
-    prefix="$(brew --prefix fzf 2>/dev/null)"
-    if [[ -d "$prefix" ]]; then
-      "$prefix"/install --key-bindings --completion --no-update-rc >/dev/null 2>&1 || true
+
+  mkdir -p "$(dirname "$dst")"
+
+  if [[ -e "$dst" || -L "$dst" ]]; then
+    # Skip if already the correct symlink
+    if [[ -L "$dst" && "$(readlink "$dst")" == "$src" ]]; then
+      return
     fi
+    mkdir -p "$BACKUP_DIR"
+    mv "$dst" "$BACKUP_DIR/" 2>/dev/null || rm -rf "$dst"
+    log "Backed up $dst to $BACKUP_DIR"
+  fi
+
+  # Copy file or directory
+  if [[ -d "$src" ]]; then
+    cp -r "$src" "$dst"
+    log "Copied directory $dst <- $src"
+  else
+    cp "$src" "$dst"
+    log "Copied $dst <- $src"
   fi
 }
 
 link_all() {
   local mappings=(
-    ".tmux.conf:.tmux.conf"
     ".zshrc:.zshrc"
     ".zshenv:.zshenv"
-    ".zprofile:.zprofile"
     ".gitconfig:.gitconfig"
-    ".vimrc:.vimrc"
-    ".skhdrc:.skhdrc"
-    ".yabairc:.yabairc"
-    "fzf-zsh-history-config.zsh:fzf-zsh-history-config.zsh"
-    ".config/nvim:.config/nvim"
-    ".config/gh:.config/gh"
     ".config/uv:.config/uv"
-    ".config/scdl:.config/scdl"
-    ".config/scdl2:.config/scdl2"
-    ".config/zed:.config/zed"
-    ".config/zsh-custom:.config/zsh-custom"
-    ".config/fish:.config/fish"
-    ".config/alacritty:.config/alacritty"
     ".local/bin/env:.local/bin/env"
-    ".local/bin/env.fish:.local/bin/env.fish"
-    ".codex:.codex"
   )
 
   for entry in "${mappings[@]}"; do
@@ -180,6 +150,90 @@ link_all() {
     backup_and_link "$src" "$dst"
   done
 }
+
+setup_cursor_config() {
+  # Check if Cursor is installed
+  if ! command -v cursor >/dev/null 2>&1 && [[ ! -d "/Applications/Cursor.app" ]]; then
+    warn "Cursor not found, skipping configuration setup"
+    return
+  fi
+
+  log "Setting up Cursor configuration..."
+  
+  local source_dir="$DOTFILES_DIR/cursor"
+  local cursor_support="$HOME/Library/Application Support/Cursor/User"
+  
+  if [[ ! -d "$source_dir" ]]; then
+    warn "Cursor configuration not found in $source_dir"
+    return
+  fi
+  
+  mkdir -p "$cursor_support"
+  
+  # Copy settings.json
+  if [[ -f "$source_dir/settings.json" ]]; then
+    backup_and_copy "$source_dir/settings.json" "$cursor_support/settings.json"
+  fi
+  
+  # Copy keybindings.json
+  if [[ -f "$source_dir/keybindings.json" ]]; then
+    backup_and_copy "$source_dir/keybindings.json" "$cursor_support/keybindings.json"
+  fi
+  
+  # Copy profiles directory
+  if [[ -d "$source_dir/profiles" ]]; then
+    backup_and_copy "$source_dir/profiles" "$cursor_support/profiles"
+  fi
+  
+  # Copy extensions.json if it exists
+  if [[ -f "$source_dir/extensions.json" ]]; then
+    backup_and_copy "$source_dir/extensions.json" "$cursor_support/extensions.json"
+  fi
+  
+  # Collect all extensions to install (from extensions.txt and all profile extensions.json files)
+  local extensions_to_install=()
+  
+  # Add extensions from main extensions.txt
+  if [[ -f "$source_dir/extensions.txt" ]]; then
+    while IFS= read -r extension; do
+      [[ -z "$extension" ]] && continue
+      extensions_to_install+=("$extension")
+    done < "$source_dir/extensions.txt"
+  fi
+  
+  # Extract extension IDs from profile extensions.json files
+  if [[ -d "$source_dir/profiles" ]]; then
+    for profile_ext_file in "$source_dir/profiles"/*/extensions.json; do
+      if [[ -f "$profile_ext_file" ]]; then
+        # Extract extension IDs from JSON using Python (more reliable than sed/grep)
+        if command -v python3 >/dev/null 2>&1; then
+          while IFS= read -r ext_id; do
+            [[ -z "$ext_id" ]] && continue
+            extensions_to_install+=("$ext_id")
+          done < <(python3 -c "import json, sys; data = json.load(sys.stdin); items = data if isinstance(data, list) else [data]; [print(item.get('identifier', {}).get('id', '')) for item in items if item.get('identifier', {}).get('id')]" < "$profile_ext_file" 2>/dev/null)
+        else
+          # Fallback: simple grep for "id" field (less reliable but works for most cases)
+          while IFS= read -r ext_id; do
+            [[ -z "$ext_id" ]] && continue
+            extensions_to_install+=("$ext_id")
+          done < <(grep -oE '"id"\s*:\s*"[^"]+"' "$profile_ext_file" | sed -E 's/.*"id"\s*:\s*"([^"]+)".*/\1/')
+        fi
+      fi
+    done
+  fi
+  
+  # Install all unique extensions
+  if [[ ${#extensions_to_install[@]} -gt 0 ]]; then
+    log "Installing Cursor extensions (from main and profiles)..."
+    # Remove duplicates and install
+    printf '%s\n' "${extensions_to_install[@]}" | sort -u | while IFS= read -r extension; do
+      [[ -z "$extension" ]] && continue
+      cursor --install-extension "$extension" >/dev/null 2>&1 || warn "Failed to install extension: $extension"
+    done
+    log "Cursor extensions installation complete"
+  fi
+}
+
 
 post_notes() {
   cat <<'EON'
@@ -193,8 +247,9 @@ EON
 
 ensure_homebrew
 install_brew_packages
+ensure_pipx_uv
 init_submodules
 install_oh_my_zsh
-install_fzf_bindings
 link_all
+setup_cursor_config
 post_notes

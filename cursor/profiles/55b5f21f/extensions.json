@@ -1,0 +1,210 @@
+[
+    {
+        "identifier": {
+            "id": "ms-python.black-formatter",
+            "uuid": "859e640c-c157-47da-8699-9080b81c8371"
+        },
+        "version": "2025.2.0",
+        "location": {
+            "$mid": 1,
+            "path": "/Users/enochlee/.cursor/extensions/ms-python.black-formatter-2025.2.0-universal",
+            "scheme": "file"
+        },
+        "relativeLocation": "ms-python.black-formatter-2025.2.0-universal",
+        "metadata": {
+            "installedTimestamp": 1769820698216,
+            "pinned": false,
+            "source": "gallery",
+            "id": "859e640c-c157-47da-8699-9080b81c8371",
+            "publisherId": "998b010b-e2af-44a5-a6cd-0b5fd3b9b6f8",
+            "publisherDisplayName": "ms-python",
+            "targetPlatform": "universal",
+            "updated": false,
+            "private": false,
+            "isPreReleaseVersion": false,
+            "hasPreReleaseVersion": false
+        }
+    },
+    {
+        "identifier": {
+            "id": "ms-python.python",
+            "uuid": "f1f59ae4-9318-4f3c-a9b5-81b2eaa5f8a5"
+        },
+        "version": "2025.6.1",
+        "location": {
+            "$mid": 1,
+            "path": "/Users/enochlee/.cursor/extensions/ms-python.python-2025.6.1-darwin-arm64",
+            "scheme": "file"
+        },
+        "relativeLocation": "ms-python.python-2025.6.1-darwin-arm64",
+        "metadata": {
+            "installedTimestamp": 1769820698216,
+            "pinned": false,
+            "source": "gallery",
+            "id": "f1f59ae4-9318-4f3c-a9b5-81b2eaa5f8a5",
+            "publisherId": "998b010b-e2af-44a5-a6cd-0b5fd3b9b6f8",
+            "publisherDisplayName": "ms-python",
+            "targetPlatform": "darwin-arm64",
+            "updated": false,
+            "private": false,
+            "isPreReleaseVersion": false,
+            "hasPreReleaseVersion": false
+        }
+    },
+    {
+        "identifier": {
+            "id": "ms-python.debugpy",
+            "uuid": "4bd5d2c9-9d65-401a-b0b2-7498d9f17615"
+        },
+        "version": "2025.18.0",
+        "location": {
+            "$mid": 1,
+            "path": "/Users/enochlee/.cursor/extensions/ms-python.debugpy-2025.18.0-darwin-arm64",
+            "scheme": "file"
+        },
+        "relativeLocation": "ms-python.debugpy-2025.18.0-darwin-arm64",
+        "metadata": {
+            "installedTimestamp": 1769820698216,
+            "pinned": false,
+            "source": "gallery",
+            "id": "4bd5d2c9-9d65-401a-b0b2-7498d9f17615",
+            "publisherId": "998b010b-e2af-44a5-a6cd-0b5fd3b9b6f8",
+            "publisherDisplayName": "ms-python",
+            "targetPlatform": "darwin-arm64",
+            "updated": false,
+            "private": false,
+            "isPreReleaseVersion": false,
+            "hasPreReleaseVersion": false
+        }
+    },
+    {
+        "identifier": {
+            "id": "anysphere.cursorpyright",
+            "uuid": "d7f9f831-2239-4783-9d06-18d27f285818"
+        },
+        "version": "1.0.10",
+        "location": {
+            "$mid": 1,
+            "path": "/Users/enochlee/.cursor/extensions/anysphere.cursorpyright-1.0.10",
+            "scheme": "file"
+        },
+        "relativeLocation": "anysphere.cursorpyright-1.0.10",
+        "metadata": {
+            "installedTimestamp": 1769820698216,
+            "pinned": false,
+            "source": "gallery",
+            "id": "d7f9f831-2239-4783-9d06-18d27f285818",
+            "publisherId": "c16ea17f-2629-4893-9064-35c0fd9add4c",
+            "publisherDisplayName": "Anysphere",
+            "targetPlatform": "undefined",
+            "updated": false,
+            "private": false,
+            "isPreReleaseVersion": false,
+            "hasPreReleaseVersion": false
+        }
+    },
+    {
+        "identifier": {
+            "id": "ms-python.vscode-python-envs",
+            "uuid": "b41d8e8a-b6d4-4202-8f07-7189bdda81be"
+        },
+        "version": "1.10.0",
+        "location": {
+            "$mid": 1,
+            "path": "/Users/enochlee/.cursor/extensions/ms-python.vscode-python-envs-1.10.0-universal",
+            "scheme": "file"
+        },
+        "relativeLocation": "ms-python.vscode-python-envs-1.10.0-universal",
+        "metadata": {
+            "installedTimestamp": 1769820709762,
+            "pinned": false,
+            "source": "gallery",
+            "id": "b41d8e8a-b6d4-4202-8f07-7189bdda81be",
+            "publisherId": "998b010b-e2af-44a5-a6cd-0b5fd3b9b6f8",
+            "publisherDisplayName": "ms-python",
+            "targetPlatform": "universal",
+            "updated": false,
+            "private": false,
+            "isPreReleaseVersion": false,
+            "hasPreReleaseVersion": false
+        }
+    },
+    {
+        "identifier": {
+            "id": "ms-python.pylint",
+            "uuid": "8dc47276-5882-4c5f-903d-7eef7b9d1584"
+        },
+        "version": "2025.2.0",
+        "location": {
+            "$mid": 1,
+            "path": "/Users/enochlee/.cursor/extensions/ms-python.pylint-2025.2.0-universal",
+            "scheme": "file"
+        },
+        "relativeLocation": "ms-python.pylint-2025.2.0-universal",
+        "metadata": {
+            "installedTimestamp": 1769820716499,
+            "pinned": false,
+            "source": "gallery",
+            "id": "8dc47276-5882-4c5f-903d-7eef7b9d1584",
+            "publisherId": "998b010b-e2af-44a5-a6cd-0b5fd3b9b6f8",
+            "publisherDisplayName": "ms-python",
+            "targetPlatform": "universal",
+            "updated": false,
+            "private": false,
+            "isPreReleaseVersion": false,
+            "hasPreReleaseVersion": false
+        }
+    },
+    {
+        "identifier": {
+            "id": "tintinweb.vscode-vyper",
+            "uuid": "38c23a3b-02ea-4adc-ac33-55c6aecc36da"
+        },
+        "version": "0.1.0",
+        "location": {
+            "$mid": 1,
+            "path": "/Users/enochlee/.cursor/extensions/tintinweb.vscode-vyper-0.1.0-universal",
+            "scheme": "file"
+        },
+        "relativeLocation": "tintinweb.vscode-vyper-0.1.0-universal",
+        "metadata": {
+            "installedTimestamp": 1769820721796,
+            "pinned": false,
+            "source": "gallery",
+            "id": "38c23a3b-02ea-4adc-ac33-55c6aecc36da",
+            "publisherId": "05a346b2-82f2-4967-9025-610cb310475d",
+            "publisherDisplayName": "tintinweb",
+            "targetPlatform": "universal",
+            "updated": false,
+            "private": false,
+            "isPreReleaseVersion": false,
+            "hasPreReleaseVersion": false
+        }
+    },
+    {
+        "identifier": {
+            "id": "nomicfoundation.hardhat-solidity",
+            "uuid": "dada159b-1dfe-49fc-a369-0e08ecdff9b3"
+        },
+        "version": "0.8.27",
+        "location": {
+            "$mid": 1,
+            "path": "/Users/enochlee/.cursor/extensions/nomicfoundation.hardhat-solidity-0.8.27-universal",
+            "scheme": "file"
+        },
+        "relativeLocation": "nomicfoundation.hardhat-solidity-0.8.27-universal",
+        "metadata": {
+            "installedTimestamp": 1769820737414,
+            "pinned": false,
+            "source": "gallery",
+            "id": "dada159b-1dfe-49fc-a369-0e08ecdff9b3",
+            "publisherId": "973909a1-f7d7-44c0-9261-c2e7903bf2dd",
+            "publisherDisplayName": "NomicFoundation",
+            "targetPlatform": "universal",
+            "updated": false,
+            "private": false,
+            "isPreReleaseVersion": false,
+            "hasPreReleaseVersion": false
+        }
+    }
+]
