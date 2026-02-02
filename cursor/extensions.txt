@@ -3,10 +3,12 @@ anysphere.remote-ssh
 dart-code.dart-code
 dart-code.flutter
 llvm-vs-code-extensions.vscode-clangd
+mads-hartmann.bash-ide-vscode
 ms-python.black-formatter
 ms-python.debugpy
 ms-python.pylint
 ms-python.python
 ms-python.vscode-python-envs
 nomicfoundation.hardhat-solidity
+timonwong.shellcheck
 tintinweb.vscode-vyper

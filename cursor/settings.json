@@ -11,5 +11,6 @@
     "workbench.settings.applyToAllProfiles": [],
     "window.zoomLevel": 0.5,
     "update.enableWindowsBackgroundUpdates": false,
-    "update.mode": "none"
+    "update.mode": "none",
+    "git.confirmSync": false
 }

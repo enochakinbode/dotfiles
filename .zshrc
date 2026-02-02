@@ -1,6 +1,6 @@
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
-plugins=(git)
+plugins=(git zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -28,3 +28,5 @@ bindkey '^[[B' down-line-or-beginning-search # Down Arrow
 
 # Created by `pipx` on 2026-01-20 09:05:51
 export PATH="$PATH:$HOME/.local/bin"
+
+export PATH="$PATH:$HOME/desktop/hack/hack-ls/build/bin"

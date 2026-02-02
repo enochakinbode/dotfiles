@@ -92,7 +92,9 @@ ensure_pipx_uv() {
 install_oh_my_zsh() {
   local bundled="$DOTFILES_DIR/.oh-my-zsh"
   if [[ -d "$bundled" ]]; then
-    backup_and_link ".oh-my-zsh" ".oh-my-zsh"
+    # Copy instead of symlink
+    backup_and_copy "$bundled" "$HOME/.oh-my-zsh"
+    log "Copied oh-my-zsh from dotfiles"
     return
   fi
   if [[ -d "$HOME/.oh-my-zsh" ]]; then

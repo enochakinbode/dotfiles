@@ -9,6 +9,7 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Extract flags
 EXTRACT_ALL=false
 EXTRACT_CURSOR=false
+EXTRACT_OH_MY_ZSH=false
 
 parse_args() {
   while [[ $# -gt 0 ]]; do
@@ -21,6 +22,10 @@ parse_args() {
         EXTRACT_CURSOR=true
         shift
         ;;
+      --oh-my-zsh)
+        EXTRACT_OH_MY_ZSH=true
+        shift
+        ;;
       *)
         warn "Unknown option: $1"
         exit 1
@@ -31,6 +36,7 @@ parse_args() {
   # If --all is set, enable all extractions
   if [[ "$EXTRACT_ALL" == "true" ]]; then
     EXTRACT_CURSOR=true
+    EXTRACT_OH_MY_ZSH=true
   fi
 }
 
@@ -175,15 +181,52 @@ extract_cursor_config() {
   # Note: workspaceStorage is intentionally skipped as it's workspace-specific and machine-specific
 }
 
+extract_oh_my_zsh() {
+  log "Extracting oh-my-zsh configuration..."
+  
+  local source_dir="$HOME/.oh-my-zsh"
+  local target_dir="$DOTFILES_DIR/.oh-my-zsh"
+  
+  if [[ ! -d "$source_dir" ]]; then
+    warn "oh-my-zsh not found at $source_dir"
+    return
+  fi
+  
+  log "Copying oh-my-zsh directory (this may take a moment)..."
+  # Remove existing target if it exists
+  if [[ -d "$target_dir" ]]; then
+    rm -rf "$target_dir"
+  fi
+  
+  # Copy the entire directory, excluding .git if it's a submodule
+  if [[ -d "$source_dir/.git" ]]; then
+    # If it's a git repo, copy but exclude .git
+    rsync -a --exclude='.git' "$source_dir/" "$target_dir/" 2>/dev/null || {
+      cp -r "$source_dir" "$target_dir"
+      rm -rf "$target_dir/.git" 2>/dev/null
+    }
+    log "Copied oh-my-zsh (excluding .git)"
+  else
+    cp -r "$source_dir" "$target_dir"
+    log "Copied oh-my-zsh directory"
+  fi
+  
+  log "oh-my-zsh extraction complete"
+}
+
 extract_configs() {
   if [[ "$EXTRACT_CURSOR" == "true" ]]; then
     extract_cursor_config
   fi
   
-  if [[ "$EXTRACT_ALL" == "true" || "$EXTRACT_CURSOR" == "true" ]]; then
+  if [[ "$EXTRACT_OH_MY_ZSH" == "true" ]]; then
+    extract_oh_my_zsh
+  fi
+  
+  if [[ "$EXTRACT_ALL" == "true" || "$EXTRACT_CURSOR" == "true" || "$EXTRACT_OH_MY_ZSH" == "true" ]]; then
     log "Configuration extraction complete!"
   else
-    warn "No extraction flags provided. Use --all or --cursor"
+    warn "No extraction flags provided. Use --all, --cursor, or --oh-my-zsh"
     exit 1
   fi
 }
