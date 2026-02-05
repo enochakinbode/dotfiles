@@ -1,3 +1,6 @@
 [user]
 	name = enochakinbode
 	email = enochakinbode466@gmail.com
+
+[init]
+	defaultBranch = pilot

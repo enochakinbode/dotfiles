@@ -30,3 +30,10 @@ bindkey '^[[B' down-line-or-beginning-search # Down Arrow
 export PATH="$PATH:$HOME/.local/bin"
 
 export PATH="$PATH:$HOME/desktop/hack/hack-ls/build/bin"
+
+# bun completions
+[ -s "/Users/enochlee/.bun/_bun" ] && source "/Users/enochlee/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
